@@ -106,25 +106,19 @@ industries:
       - "云网融合"
 
 business_domains:
-  SECURITY:
-    name: "网络与数据安全"
+  DIGITAL_TRANSFORM:
+    name: "数字化转型与系统集成"
     keywords:
-      - "安全"
-      - "漏洞"
-      - "黑客"
-      - "防泄密"
-      - "脱敏"
-      - "合规"
-      - "等保"
-      - "分级分类"
-      - "关基"
-      - "防护"
-      - "入侵"
-      - "勒索"
-      - "攻防"
-      - "渗透"
-      - "态势感知"
-      - "安全法"
+      - "数字化"
+      - "系统集成"
+      - "信息化"
+      - "信创"
+      - "业务中台"
+      - "ERP"
+      - "CRM"
+      - "OA协同"
+      - "软件定制"
+      - "微服务"
   DATA_ASSET:
     name: "数据要素与数据资产"
     keywords:
@@ -133,11 +127,8 @@ business_domains:
       - "数据流通"
       - "数据交易"
       - "数商"
-      - "数据授权"
-      - "数据价值"
-      - "数据跨境"
-      - "出境"
       - "数据确权"
+      - "数据中台"
   AI_INTELLIGENCE:
     name: "AI大模型与智能应用"
     keywords:
@@ -147,23 +138,18 @@ business_domains:
       - "深度学习"
       - "算法"
       - "智能体"
-      - "AIGC"
-      - "ChatGPT"
       - "LLM"
-      - "大语言模型"
-      - "端侧推理"
-  CYBER_RANGE:
-    name: "教学实训与网络靶场"
+  CLOUD_INFRA:
+    name: "云计算与算力基础设施"
     keywords:
-      - "实训"
-      - "靶场"
-      - "攻防演练"
-      - "人才培养"
-      - "学科建设"
-      - "模拟训练"
-      - "实操"
-      - "培训"
-      - "技能竞赛"
+      - "云计算"
+      - "私有云"
+      - "服务器"
+      - "存储"
+      - "IDC"
+      - "算力中心"
+      - "超融合"
+      - "大数据平台"
 
 bidding_keywords:
   - "中标"
@@ -185,30 +171,30 @@ sources:
     enabled: true
     time_type: 1
     keywords:
-      - "网络安全"
-      - "数据安全"
-      - "实训"
-      - "靶场"
-      - "安全测评"
-      - "密码应用"
-      - "信息化"
       - "数字化"
+      - "系统集成"
+      - "信息化"
+      - "云计算"
+      - "大数据"
+      - "AI大模型"
+      - "信创"
+      - "软件开发"
 
   baidu_news:
     enabled: true
     queries:
-      - "医疗 网络安全 中标"
-      - "高校 数据安全 招标"
-      - "交通 数智化 采购"
-      - "运营商 5G安全 入围"
-      - "军工 信息化 招标"
+      - "医疗 数字化转型 中标"
+      - "高校 信息化建设 招标"
+      - "交通 算力中心 采购"
+      - "运营商 5G数智化 入围"
+      - "军工 核心系统 招标"
 
   toutiao_bidding:
     enabled: true
     queries:
-      - "医疗行业 中标"
-      - "教育高校 招标"
-      - "交通网络 采购"
+      - "医疗行业 数字化 中标"
+      - "教育高校 信息化 招标"
+      - "交通网络 算力采购"
       - "运营商 招标入围"
 
   rss_feeds:
@@ -216,8 +202,10 @@ sources:
       url: "https://www.36kr.com/feed"
       enabled: true
       max_items: 8
-    - name: "FreeBuf企业安全"
-      url: "https://www.freebuf.com/feed"
+    - name: "IT之家商业科技"
+      url: "https://www.ithome.com/rss/"
+      enabled: true
+      max_items: 8
       enabled: true
       max_items: 8
 

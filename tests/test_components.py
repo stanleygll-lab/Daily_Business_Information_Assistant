@@ -32,7 +32,8 @@ def test_config_manager():
     assert "business_domains" in cfg.config
     assert "bidding_keywords" in cfg.config
     assert "MEDICAL" in cfg.industries
-    assert "SECURITY" in cfg.business_domains
+    assert "DIGITAL_TRANSFORM" in cfg.business_domains
+    assert "CLOUD_INFRA" in cfg.business_domains
     print("  ✅ ConfigManager passed!")
 
 
@@ -45,31 +46,31 @@ def test_matrix_filter():
         cfg.bidding_keywords
     )
 
-    # 1. 医疗 + 数据安全 + 中标 (符合两维 + 标讯)
+    # 1. 医疗 + 数字化转型/系统集成 + 中标 (符合两维 + 标讯)
     ok1, ind1, biz1, is_bid1 = filter_engine.evaluate_news(
-        "某省人民医院数据安全分级分类与防护系统建设项目中标结果公告"
+        "某省人民医院核心业务系统集成与数字化转型升级项目中标结果公告"
     )
     assert ok1 is True, "Should match both industry and business"
     assert ind1 == "MEDICAL", f"Expected MEDICAL, got {ind1}"
     assert is_bid1 is True, "Should flag as bidding"
 
-    # 2. 高校 + AI/靶场实训 + 招标 (符合两维)
+    # 2. 高校 + AI/云计算基础设施 + 招标 (符合两维)
     ok2, ind2, biz2, is_bid2 = filter_engine.evaluate_news(
-        "某大学人工智能网络攻防实训靶场平台采购意向公示"
+        "某大学人工智能计算中心与私有云基础设施采购意向公示"
     )
     assert ok2 is True
     assert ind2 == "EDUCATION"
     assert is_bid2 is True
 
-    # 3. 仅有行业，无安全/AI/数据业务 -> 必须排除
+    # 3. 仅有行业，无数字化/AI/算力业务 -> 必须排除
     ok3, _, _, _ = filter_engine.evaluate_news(
         "某市第一人民医院新院区建设项目主体工程封顶"
     )
     assert ok3 is False, "Should reject news without business domain"
 
-    # 4. 仅有安全，无目标行业 -> 必须排除
+    # 4. 仅有数字化/云计算，无目标行业 -> 必须排除
     ok4, _, _, _ = filter_engine.evaluate_news(
-        "Chrome浏览器紧急修复高危远程代码执行漏洞"
+        "某科技公司发布新一代企业级私有云超融合平台"
     )
     assert ok4 is False, "Should reject news without target industry"
 

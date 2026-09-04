@@ -34,7 +34,7 @@ class CcgpScraper(BaseScraper):
         super().__init__(name="CCGP Procurement")
         self.context = context
         self.keywords = keywords or [
-            "网络安全", "数据安全", "实训", "靶场", "安全测评", "密码应用", "信息化", "数字化"
+            "数字化", "系统集成", "信息化", "云计算", "大数据", "AI大模型", "信创", "软件开发"
         ]
         # timeType=1 表示近3日招采公告，timeType=2 为近1周
         self.time_type = time_type

@@ -12,6 +12,11 @@
   <b>An open-source, automated B2B sales intelligence aggregator, major procurement opportunity miner, and two-dimensional matrix evaluation platform with mobile-friendly infographic digests.</b>
 </p>
 
+> [!TIP]
+> 💡 **Customization Note for Open-Source Developers (100% Configurable)**:  
+> This project is a completely decoupled, **generic B2B sales intelligence and tender retrieval framework**. The preset domains ("Healthcare / Education / Transport" and "Digital Transformation / AI / Data Assets / Cloud Infra") are purely **out-of-the-box demonstration templates**!  
+> **You can freely reconfigure it without touching code**: simply update your target customer industries, solution domains, procurement keywords, and data sources via the modern Web Dashboard or `config/config.yaml`.
+
 ---
 
 ## 🎯 Purpose & Problems Solved
@@ -25,7 +30,7 @@ ToB sales directors and pre-sales teams face overwhelming industry noise. Most g
 ## 🌟 Key Features
 
 - 🎯 **[Target Industry × Business Capability] Matrix Evaluation**:
-  - Requires simultaneous match between customer sectors (Healthcare, Education, Transport, Defense, Telecom) and technical solution domains (Cybersecurity, Data Assets, AI Models, Cyber Range).
+  - Requires simultaneous match between customer sectors (Healthcare, Education, Transport, Defense, Telecom) and technical solution domains (Digital Transformation & System Integration, Data Assets, AI Models, Cloud Infrastructure).
   - Flags and highlights contract awards, tenders, and framework procurements.
 - 🔍 **Heterogeneous Bidding Crawlers**:
   - **China Government Procurement Network (CCGP search.ccgp.gov.cn)**: Direct authoritative portal scraping for ministries, municipal governments, and SOEs with buyer entity parsing.
