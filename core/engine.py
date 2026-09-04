@@ -18,6 +18,8 @@ from core.renderer import SalesBriefingRenderer
 from core.scrapers.baidu_scraper import BaiduScraper
 from core.scrapers.search_scraper import ToutiaoBiddingScraper
 from core.scrapers.rss_scraper import BusinessRssScraper
+from core.scrapers.ccgp_scraper import CcgpScraper
+
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
@@ -82,17 +84,22 @@ class BusinessBriefingEngine:
                 self.log(f"✅ RSS 获取到 {len(rss_items)} 条候选数据")
                 raw_items.extend(rss_items)
 
-            # 3. 浏览器抓取 (百度新闻 + 头条招标)
+            # 3. 浏览器抓取 (中国政府采购网 + 百度新闻 + 头条招标)
+            ccgp_cfg = src_cfg.get("ccgp", {})
             baidu_cfg = src_cfg.get("baidu_news", {})
             toutiao_cfg = src_cfg.get("toutiao_bidding", {})
 
-            if baidu_cfg.get("enabled", True) or toutiao_cfg.get("enabled", True):
-                self.log("🌐 启动无头浏览器，进行百度新闻与头条商机定向挖掘...")
+            if ccgp_cfg.get("enabled", True) or baidu_cfg.get("enabled", True) or toutiao_cfg.get("enabled", True):
+                self.log("🌐 启动无头浏览器，进行中国政府采购网、百度新闻与头条商机定向挖掘...")
                 async with async_playwright() as p:
                     browser = await p.chromium.launch(headless=True)
                     context = await browser.new_context(user_agent=USER_AGENT)
 
                     tasks = []
+                    if ccgp_cfg.get("enabled", True):
+                        c_kws = ccgp_cfg.get("keywords", [])
+                        c_time_type = ccgp_cfg.get("time_type", 1)
+                        tasks.append(CcgpScraper(context, keywords=c_kws, time_type=c_time_type).fetch())
                     if baidu_cfg.get("enabled", True):
                         b_queries = baidu_cfg.get("queries", [])
                         tasks.append(BaiduScraper(context, b_queries).fetch())
@@ -106,7 +113,7 @@ class BusinessBriefingEngine:
                             raw_items.extend(res)
 
                     await browser.close()
-                self.log(f"✅ 网页商机挖掘完成，当前全网候选数据 {len(raw_items)} 条")
+                self.log(f"✅ 政府采购与全网商机挖掘完成，当前全网候选数据 {len(raw_items)} 条")
 
             self.status.total_found = len(raw_items)
 

@@ -181,6 +181,19 @@ bidding_keywords:
   - "候选人"
 
 sources:
+  ccgp:
+    enabled: true
+    time_type: 1
+    keywords:
+      - "网络安全"
+      - "数据安全"
+      - "实训"
+      - "靶场"
+      - "安全测评"
+      - "密码应用"
+      - "信息化"
+      - "数字化"
+
   baidu_news:
     enabled: true
     queries:

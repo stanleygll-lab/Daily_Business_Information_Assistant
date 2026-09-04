@@ -3,5 +3,7 @@ from .base import BaseScraper
 from .baidu_scraper import BaiduScraper
 from .search_scraper import ToutiaoBiddingScraper
 from .rss_scraper import BusinessRssScraper
+from .ccgp_scraper import CcgpScraper
 
-__all__ = ["BaseScraper", "BaiduScraper", "ToutiaoBiddingScraper", "BusinessRssScraper"]
+__all__ = ["BaseScraper", "BaiduScraper", "ToutiaoBiddingScraper", "BusinessRssScraper", "CcgpScraper"]
+

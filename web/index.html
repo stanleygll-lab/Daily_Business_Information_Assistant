@@ -494,9 +494,40 @@
 
     <!-- 4. 信息源 -->
     <div id="tab-sources" class="tab-pane">
+      <!-- CCGP 中国政府采购网专项配置卡片 -->
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <div class="card-title">🏛️ 中国政府采购网 (CCGP search.ccgp.gov.cn) 权威官方招采直采</div>
+          <label class="switch">
+            <input type="checkbox" id="ccgp-enabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="grid-2" style="margin-bottom: 1rem;">
+          <div class="form-group">
+            <label class="form-label">招采公告时效跨度</label>
+            <select class="form-control" id="ccgp-time-type">
+              <option value="1">近 3 日最新招采公告 (官方推荐)</option>
+              <option value="2">近 1 周招采公告</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">采集说明</label>
+            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-top: 0.4rem;">
+              无头浏览器直达国家财政部中国政府采购网，实时检索中央国家机关、各省市直属单位、部属高校及重点企事业单位最新标讯、意向与中标结果。
+            </p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CCGP 专项检索关键词库 (回车即可添加新关键词)</label>
+          <div class="tag-container" id="ccgp-tags"></div>
+        </div>
+      </div>
+
+      <!-- 垂直商业与招采 RSS 订阅源维护 -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🌐 商业招采定向爬虫与 RSS 维护</div>
+          <div class="card-title">📡 商业招采 RSS 订阅源维护</div>
           <button class="btn btn-primary" onclick="addNewRssRow()">➕ 添加新 RSS</button>
         </div>
         <table id="rss-table">
@@ -511,7 +542,7 @@
           <tbody id="rss-tbody"></tbody>
         </table>
         <div style="margin-top: 1.5rem; text-align: right;">
-          <button class="btn btn-primary" onclick="saveSourcesConfig()">💾 保存信息源配置</button>
+          <button class="btn btn-primary" onclick="saveSourcesConfig()">💾 保存信息源与招采配置</button>
         </div>
       </div>
     </div>
@@ -657,6 +688,7 @@
       renderBusiness(globalConfig.business_domains || {});
       renderBiddingTags(globalConfig.bidding_keywords || []);
       renderRssTable(globalConfig.sources?.rss_feeds || []);
+      renderCcgpUI(globalConfig.sources?.ccgp || {});
 
       const ai = globalConfig.ai || {};
       document.getElementById('ai-enabled').checked = ai.enabled !== false;
@@ -850,14 +882,55 @@
       renderRssTable(globalConfig.sources.rss_feeds);
     }
 
+    function renderCcgpUI(ccgp) {
+      document.getElementById('ccgp-enabled').checked = ccgp.enabled !== false;
+      document.getElementById('ccgp-time-type').value = ccgp.time_type || 1;
+      renderCcgpTags(ccgp.keywords || []);
+    }
+
+    function renderCcgpTags(kws) {
+      const container = document.getElementById('ccgp-tags');
+      container.innerHTML = (kws || []).map(k => `
+        <span class="tag" style="border-color: #38BDF8; color: #BAE6FD;">${k} <span class="tag-remove" onclick="removeCcgpTag('${k}')">×</span></span>
+      `).join('') + `<input type="text" class="tag-input" placeholder="输入政府采购检索词后回车..." onkeydown="handleCcgpTagInput(event)">`;
+    }
+
+    function handleCcgpTagInput(e) {
+      if (e.key === 'Enter') {
+        const val = e.target.value.trim();
+        if (val) {
+          if (!globalConfig.sources) globalConfig.sources = {};
+          if (!globalConfig.sources.ccgp) globalConfig.sources.ccgp = {};
+          if (!globalConfig.sources.ccgp.keywords) globalConfig.sources.ccgp.keywords = [];
+          if (!globalConfig.sources.ccgp.keywords.includes(val)) {
+            globalConfig.sources.ccgp.keywords.push(val);
+            renderCcgpTags(globalConfig.sources.ccgp.keywords);
+          }
+          e.target.value = '';
+        }
+      }
+    }
+
+    function removeCcgpTag(kw) {
+      if (globalConfig.sources?.ccgp?.keywords) {
+        globalConfig.sources.ccgp.keywords = globalConfig.sources.ccgp.keywords.filter(k => k !== kw);
+        renderCcgpTags(globalConfig.sources.ccgp.keywords);
+      }
+    }
+
     async function saveSourcesConfig() {
+      if (!globalConfig.sources) globalConfig.sources = {};
+      if (!globalConfig.sources.ccgp) globalConfig.sources.ccgp = {};
+      globalConfig.sources.ccgp.enabled = document.getElementById('ccgp-enabled').checked;
+      globalConfig.sources.ccgp.time_type = parseInt(document.getElementById('ccgp-time-type').value) || 1;
+
       const res = await fetch('/api/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sources: globalConfig.sources })
       });
       const data = await res.json();
-      showToast(data.success ? '信息源配置保存成功！' : '保存失败', !data.success);
+      showToast(data.success ? '政府采购与信息源配置保存成功！' : '保存失败', !data.success);
     }
 
     const PROVIDER_DEFAULTS = {

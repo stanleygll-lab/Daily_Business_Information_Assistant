@@ -185,7 +185,21 @@ bidding_keywords:
 
 # 数据源集合 (支持自由增加或启停)
 sources:
-  # 1. 百度新闻定向检索
+  # 1. 中国政府采购网 (CCGP search.ccgp.gov.cn) 权威官方招采直采
+  ccgp:
+    enabled: true
+    time_type: 1                  # 1=近3天公告, 2=近1周公告
+    keywords:
+      - "网络安全"
+      - "数据安全"
+      - "实训"
+      - "靶场"
+      - "安全测评"
+      - "密码应用"
+      - "信息化"
+      - "数字化"
+
+  # 2. 百度新闻定向检索
   baidu_news:
     enabled: true
     queries:
