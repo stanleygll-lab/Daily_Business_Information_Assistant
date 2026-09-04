@@ -28,24 +28,26 @@ ToB sales directors and pre-sales teams face overwhelming industry noise. Most g
   - Requires simultaneous match between customer sectors (Healthcare, Education, Transport, Defense, Telecom) and technical solution domains (Cybersecurity, Data Assets, AI Models, Cyber Range).
   - Flags and highlights contract awards, tenders, and framework procurements.
 - 🔍 **Heterogeneous Bidding Crawlers**:
-  - Baidu News search with target URL redirection resolving.
-  - Toutiao bidding opportunity hunt.
-  - Commercial and procurement RSS feeds.
-- 🤖 **LLM Fact Extraction**:
+  - **China Government Procurement Network (CCGP search.ccgp.gov.cn)**: Direct authoritative portal scraping for ministries, municipal governments, and SOEs with buyer entity parsing.
+  - **Baidu News Procurement Search**: Real landing page redirection resolving for fresh bidding announcements.
+  - **Toutiao Bidding Opportunity Hunt**: Real-time contract award and RFP captures.
+  - **Commercial & Technology RSS Feeds**: Concurrent ingestion from authoritative media.
+- 🤖 **LLM Fact Extraction (Zero-Config API Base URL)**:
+  - Built-in automatic provider resolution for **DeepSeek**, **Alibaba Qwen**, **Moonshot Kimi**, **Google Gemini**, **OpenAI**, and local **Ollama** (no need to manually type endpoint URLs).
   - Extracts key contract facts (buyer, awarded vendor, amount, business scope) under 30 words.
-  - Supports Google Gemini, DeepSeek, OpenAI, and offline regex fallback.
+  - Robust offline rule-based fallback when offline or without API key.
 - 🎨 **Sales-Tailored Color Hierarchy**:
   - Color-coded banners per industry sector (Medical Green, Education Yellow, Transport Cool Gray, Military Sand Brown, Telecom Purple).
   - Independent QR code per opportunity for instant access to the tender document.
 - 💻 **Modern Web Dashboard & Headless CLI**:
-  - Interactive UI with live streaming logs, matrix editor, and automated scheduling.
+  - Interactive UI with live streaming logs, matrix editor, CCGP custom keywords, and automated scheduling.
 
 ---
 
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/your-username/Daily_Business_Information_Assistant.git
+git clone https://github.com/stanleygll-lab/Daily_Business_Information_Assistant.git
 cd Daily_Business_Information_Assistant
 
 # Virtual environment & dependencies

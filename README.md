@@ -31,12 +31,14 @@
   - 必须同时命中**目标采购行业**（如医疗/教育/交通/军工/运营商/金融）与**核心业务维度**（网络安全/数据要素/AI应用/靶场实训）；
   - 自动识别“中标、入围、招标、采购、单一来源、集采”等强商机动作，并加权标红；
   - 杜绝“某医院开业”或“某通用软件修复漏洞”等单边无效噪音。
-- 🔍 **全网商业情报定向抓取矩阵**：
+- 🔍 **全网商业情报与权威招采直采矩阵**：
+  - **中国政府采购网 (CCGP search.ccgp.gov.cn)**：国家财政部直属权威招采发布平台，直采部委、省市、央企大单与采购意向，精准解析采购单位名称；
   - **百度新闻定向搜索**：深度解析真实落地页重定向 URL，抓取时效性极强的各行业采购公告；
   - **头条商机专项搜索**：自动化捕获重点招标、中标公示快报；
-  - **垂直招采与科技 RSS**：并发订阅权威商业源。
-- 🤖 **大模型商机事实深度提炼**：
-  - 支持 **Google Gemini**、**DeepSeek**、**OpenAI** 等主流模型；
+  - **垂直招采与商业科技 RSS**：并发订阅行业权威商业源。
+- 🤖 **大模型商机事实深度提炼 (免手输 API 地址)**：
+  - 内置 **DeepSeek**、**阿里通义千问 (Qwen)**、**月之暗面 (Kimi)**、**Google Gemini**、**OpenAI** 与本地 **Ollama** 官方端点智能解析；
+  - 零配置 URL，仅需粘贴 API Key 即可开箱即用（亦支持企业内网反代/聚合网关）；
   - 自动提炼 30 字以内商业事实（采购主体、项目金额、中标方、客户业务诉求）；
   - 配备完整的**本地规则降级引擎**，在断网或无 API Key 时仍能稳定出图。
 - 🎨 **销售专版定制视觉长图文**：
@@ -44,7 +46,7 @@
   - 每条商机附带专属扫码直达二维码，扫码即达招采公告与标书原文；
   - 同步输出 Markdown 销售早报与结构化 JSON 数据集。
 - 💻 **现代化 Web 驾驶舱 + CLI 双模式**：
-  - 内置基于 FastAPI 的现代化深色工作台，提供实时日志推流、矩阵热编辑、定时任务开关。
+  - 内置基于 FastAPI 的现代化深色工作台，提供实时日志推流、矩阵热编辑、政采源自定义、定时任务开关。
 
 ---
 
@@ -52,9 +54,10 @@
 
 ```mermaid
 graph TD
-    A1[百度新闻招采检索] --> S[数据抓取矩阵]
-    A2[头条商机专项] --> S
-    A3[商业/招采 RSS] --> S
+    A0[中国政府采购网 CCGP 直采] --> S[数据抓取矩阵]
+    A1[百度新闻招采检索] --> S
+    A2[头条商机专项搜索] --> S
+    A3[商业/科技 RSS] --> S
 
     S --> M[双维矩阵过滤引擎 MatrixFilterEngine]
     M -->|1. 目标行业匹配| M1{行业词?}
@@ -77,7 +80,7 @@ graph TD
 ### 1. 安装环境
 
 ```bash
-git clone https://github.com/your-username/Daily_Business_Information_Assistant.git
+git clone https://github.com/stanleygll-lab/Daily_Business_Information_Assistant.git
 cd Daily_Business_Information_Assistant
 
 # 创建虚拟环境
@@ -176,6 +179,7 @@ Daily_Business_Information_Assistant/
 │   ├── scheduler.py            # 每日定时调度器
 │   └── scrapers/               # 采集驱动
 │       ├── base.py             # 爬虫基类
+│       ├── ccgp_scraper.py     # 中国政府采购网 (CCGP) 权威招采直采
 │       ├── baidu_scraper.py    # 百度新闻招采搜索
 │       ├── search_scraper.py   # 头条商机专项搜索
 │       └── rss_scraper.py      # 商业/科技 RSS 抓取器
