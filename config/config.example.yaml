@@ -1,0 +1,231 @@
+# ========================================================
+# Daily Business Information Assistant Configuration Template
+# 每日行业商业与销售情报助手 - 核心配置文件模板
+# ========================================================
+
+app:
+  name: "Daily Business Information Assistant"
+  title: "📰 行业数智与安全商业动态 (销售专版)"
+  creator: "商业情报分析助手"
+  output_dir: "./output"
+  image_width: 1000
+
+industries:
+  MEDICAL:
+    title: "🩺 医疗卫生数智安全"
+    bg: "#E8F5E9"
+    border: "#A5D6A7"
+    text: "#1B5E20"
+    keywords:
+      - "医院"
+      - "医疗"
+      - "医保"
+      - "卫健"
+      - "药监"
+      - "疾控"
+      - "就诊"
+      - "病历"
+      - "三甲"
+      - "中医院"
+      - "健康档案"
+      - "智慧医疗"
+  EDUCATION:
+    title: "🏫 教育高校教学实训"
+    bg: "#FFFDE7"
+    border: "#FFF59D"
+    text: "#E65100"
+    keywords:
+      - "学校"
+      - "教育"
+      - "高校"
+      - "大学"
+      - "教育部"
+      - "高教"
+      - "普教"
+      - "中小学"
+      - "科研院"
+      - "教学"
+      - "实训"
+      - "智慧校园"
+  TRAFFIC:
+    title: "🚄 公路铁路交通数智化"
+    bg: "#ECEFF1"
+    border: "#CFD8DC"
+    text: "#263238"
+    keywords:
+      - "铁路"
+      - "高铁"
+      - "公路"
+      - "交通"
+      - "地铁"
+      - "轻轨"
+      - "轨道交通"
+      - "交控"
+      - "路网"
+      - "航空"
+      - "民航"
+      - "空管"
+      - "国铁"
+      - "智慧交通"
+  MILITARY:
+    title: "⚔️ 军工国防与军事网络"
+    bg: "#EFEBE9"
+    border: "#D7CCC8"
+    text: "#4E342E"
+    keywords:
+      - "军工"
+      - "国防"
+      - "军队"
+      - "军事"
+      - "战区"
+      - "兵器"
+      - "航天"
+      - "船舶"
+      - "中船"
+      - "战术"
+      - "空军"
+      - "陆军"
+      - "海军"
+      - "武警"
+      - "部队"
+  TELECOM:
+    title: "📞 运营商与通信安全"
+    bg: "#F3E5F5"
+    border: "#E1BEE7"
+    text: "#4A148C"
+    keywords:
+      - "运营商"
+      - "电信"
+      - "移动"
+      - "联通"
+      - "广电"
+      - "通信"
+      - "5G专网"
+      - "5G安全"
+      - "基站"
+      - "云网融合"
+
+business_domains:
+  SECURITY:
+    name: "网络与数据安全"
+    keywords:
+      - "安全"
+      - "漏洞"
+      - "黑客"
+      - "防泄密"
+      - "脱敏"
+      - "合规"
+      - "等保"
+      - "分级分类"
+      - "关基"
+      - "防护"
+      - "入侵"
+      - "勒索"
+      - "攻防"
+      - "渗透"
+      - "态势感知"
+      - "安全法"
+  DATA_ASSET:
+    name: "数据要素与数据资产"
+    keywords:
+      - "数据要素"
+      - "数据资产"
+      - "数据流通"
+      - "数据交易"
+      - "数商"
+      - "数据授权"
+      - "数据价值"
+      - "数据跨境"
+      - "出境"
+      - "数据确权"
+  AI_INTELLIGENCE:
+    name: "AI大模型与智能应用"
+    keywords:
+      - "AI"
+      - "人工智能"
+      - "大模型"
+      - "深度学习"
+      - "算法"
+      - "智能体"
+      - "AIGC"
+      - "ChatGPT"
+      - "LLM"
+      - "大语言模型"
+      - "端侧推理"
+  CYBER_RANGE:
+    name: "教学实训与网络靶场"
+    keywords:
+      - "实训"
+      - "靶场"
+      - "攻防演练"
+      - "人才培养"
+      - "学科建设"
+      - "模拟训练"
+      - "实操"
+      - "培训"
+      - "技能竞赛"
+
+bidding_keywords:
+  - "中标"
+  - "入围"
+  - "招标"
+  - "采购"
+  - "标讯"
+  - "采购意向"
+  - "单一来源"
+  - "成交公告"
+  - "采购项目"
+  - "集采"
+  - "大单"
+  - "预算"
+  - "候选人"
+
+sources:
+  baidu_news:
+    enabled: true
+    queries:
+      - "医疗 网络安全 中标"
+      - "高校 数据安全 招标"
+      - "交通 数智化 采购"
+      - "运营商 5G安全 入围"
+      - "军工 信息化 招标"
+
+  toutiao_bidding:
+    enabled: true
+    queries:
+      - "医疗行业 中标"
+      - "教育高校 招标"
+      - "交通网络 采购"
+      - "运营商 招标入围"
+
+  rss_feeds:
+    - name: "36氪商业"
+      url: "https://www.36kr.com/feed"
+      enabled: true
+      max_items: 8
+    - name: "FreeBuf企业安全"
+      url: "https://www.freebuf.com/feed"
+      enabled: true
+      max_items: 8
+
+ai:
+  enabled: true
+  provider: "gemini"
+  model: "gemini-2.5-flash-lite"
+  api_key: ""
+  base_url: ""
+  temperature: 0.2
+  prompt: |
+    你是一位资深的ToB销售商机分析师。请对以下新闻进行研判：
+    1. 判断是否属于目标行业（医疗/教育/交通/军工/运营商）；
+    2. 判断是否涉及指定业务（安全/合规/AI/数据要素/实训）；
+    3. 如果符合，提炼出一句话商业价值事实摘要（30字以内，重点突出采购主体、项目金额、中标方或核心采购诉求）。
+    格式严格：序号. 行业: [行业名] | 摘要内容
+
+scheduler:
+  enabled: false
+  daily_time: "08:30"
+
+dedup:
+  log_file: "./data/news_dedup_log_sales.json"
+  expiry_days: 7

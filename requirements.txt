@@ -1,0 +1,26 @@
+# Core Crawlers & Data Fetching
+playwright>=1.40.0
+feedparser>=6.0.10
+beautifulsoup4>=4.12.0
+httpx>=0.25.0
+requests>=2.31.0
+urllib3>=2.0.0
+chardet>=5.2.0
+
+# Infographic Rendering & QR Codes
+pillow>=10.0.0
+qrcode[pil]>=7.4.2
+reportlab>=4.0.0
+
+# AI Intelligence Evaluation
+google-genai>=0.1.0
+openai>=1.0.0
+
+# Web Dashboard & Service
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.0.0
+
+# Configuration & Utilities
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
