@@ -122,7 +122,15 @@ class AiSalesEvaluator:
             return {}
         else:
             from openai import AsyncOpenAI
-            client = AsyncOpenAI(api_key=self.api_key, base_url=self.base_url or None)
+            provider_urls = {
+                "deepseek": "https://api.deepseek.com/v1",
+                "openai": "https://api.openai.com/v1",
+                "qwen": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                "kimi": "https://api.moonshot.cn/v1",
+                "ollama": "http://localhost:11434/v1"
+            }
+            resolved_base_url = self.base_url or provider_urls.get(self.provider)
+            client = AsyncOpenAI(api_key=self.api_key, base_url=resolved_base_url)
             resp = await client.chat.completions.create(
                 model=self.model,
                 messages=[

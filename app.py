@@ -191,7 +191,15 @@ async def test_ai_connection(payload: Dict[str, Any]):
             return {"success": True, "reply": resp.text.strip()}
         else:
             from openai import OpenAI
-            client = OpenAI(api_key=api_key, base_url=base_url or None)
+            provider_urls = {
+                "deepseek": "https://api.deepseek.com/v1",
+                "openai": "https://api.openai.com/v1",
+                "qwen": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                "kimi": "https://api.moonshot.cn/v1",
+                "ollama": "http://localhost:11434/v1"
+            }
+            resolved_base_url = base_url or provider_urls.get(provider)
+            client = OpenAI(api_key=api_key, base_url=resolved_base_url)
             resp = client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": "请回复商机评估服务正常六个字。"}],

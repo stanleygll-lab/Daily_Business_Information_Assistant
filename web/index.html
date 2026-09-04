@@ -533,11 +533,14 @@
         <div class="grid-2">
           <div class="form-group">
             <label class="form-label">模型提供商 (Provider)</label>
-            <select class="form-control" id="ai-provider">
-              <option value="gemini">Google Gemini (官方推荐，速度快、并发高)</option>
+            <select class="form-control" id="ai-provider" onchange="onProviderChange()">
+              <option value="gemini">Google Gemini (官方推荐，速度极快、并发高)</option>
+              <option value="deepseek">DeepSeek (国内超高性价比，直连无需代理)</option>
+              <option value="qwen">阿里通义千问 (Qwen-Plus / 阿里云百炼)</option>
+              <option value="kimi">月之暗面 Kimi (Moonshot 官方接口)</option>
               <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
-              <option value="deepseek">DeepSeek (超高性价比，国内直连)</option>
-              <option value="custom">自定义兼容端点 (通义千问/Ollama等)</option>
+              <option value="ollama">本地 Ollama (完全离线本地运行)</option>
+              <option value="custom">自定义 OpenAI 兼容端点 (企业内网反代/聚合网关)</option>
             </select>
           </div>
           <div class="form-group">
@@ -548,6 +551,16 @@
         <div class="form-group">
           <label class="form-label">API Key 密钥</label>
           <input type="password" class="form-control" id="ai-apikey" placeholder="输入 API Key (留空或星号表示保持原有)">
+          <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 0.3rem;">
+            密钥将在本地保存，开源时自动忽略，支持从环境变量 GEMINI_API_KEY / OPENAI_API_KEY 等自动读取。
+          </small>
+        </div>
+        <div class="form-group" id="group-base-url" style="display: none;">
+          <label class="form-label">API 接口地址 (Base URL)</label>
+          <input type="text" class="form-control" id="ai-base-url" placeholder="官方端点已自动内置，留空或使用默认值即可">
+          <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 0.3rem;">
+            ⚡ 提示：选择 DeepSeek、通义千问、Kimi、OpenAI 时，系统已自动内置官方接口，无需手动输入；仅使用企业私有代理时需修改。
+          </small>
         </div>
         <div class="form-group">
           <label class="form-label">商业商机提炼 Prompt 模板</label>
@@ -651,6 +664,8 @@
       document.getElementById('ai-model').value = ai.model || '';
       document.getElementById('ai-prompt').value = ai.prompt || '';
       document.getElementById('ai-apikey').value = ai.api_key_masked || '';
+      document.getElementById('ai-base-url').value = ai.base_url || '';
+      onProviderChange(false);
 
       const sched = globalConfig.scheduler || {};
       document.getElementById('sched-enabled').checked = !!sched.enabled;
@@ -845,11 +860,48 @@
       showToast(data.success ? '信息源配置保存成功！' : '保存失败', !data.success);
     }
 
+    const PROVIDER_DEFAULTS = {
+      gemini: { url: '', model: 'gemini-2.5-flash-lite' },
+      deepseek: { url: 'https://api.deepseek.com/v1', model: 'deepseek-chat' },
+      qwen: { url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'qwen-plus' },
+      kimi: { url: 'https://api.moonshot.cn/v1', model: 'moonshot-v1-8k' },
+      openai: { url: 'https://api.openai.com/v1', model: 'gpt-4o-mini' },
+      ollama: { url: 'http://localhost:11434/v1', model: 'llama3.1' },
+      custom: { url: 'http://localhost:8000/v1', model: 'custom-model' }
+    };
+
+    function onProviderChange(autoFill = true) {
+      const p = document.getElementById('ai-provider').value;
+      const grpBase = document.getElementById('group-base-url');
+      const urlInput = document.getElementById('ai-base-url');
+      const modelInput = document.getElementById('ai-model');
+
+      if (p === 'gemini') {
+        grpBase.style.display = 'none';
+        if (autoFill) {
+          urlInput.value = '';
+          if (!modelInput.value || !modelInput.value.includes('gemini')) {
+            modelInput.value = 'gemini-2.5-flash-lite';
+          }
+        }
+      } else {
+        grpBase.style.display = 'block';
+        if (autoFill) {
+          const preset = PROVIDER_DEFAULTS[p];
+          if (preset) {
+            urlInput.value = preset.url;
+            modelInput.value = preset.model;
+          }
+        }
+      }
+    }
+
     async function saveAiConfig() {
       const p = {
         enabled: document.getElementById('ai-enabled').checked,
         provider: document.getElementById('ai-provider').value,
         model: document.getElementById('ai-model').value.trim(),
+        base_url: document.getElementById('ai-base-url').value.trim(),
         prompt: document.getElementById('ai-prompt').value.trim(),
         api_key: document.getElementById('ai-apikey').value.trim()
       };
@@ -873,6 +925,7 @@
           body: JSON.stringify({
             provider: document.getElementById('ai-provider').value,
             model: document.getElementById('ai-model').value.trim(),
+            base_url: document.getElementById('ai-base-url').value.trim(),
             api_key: document.getElementById('ai-apikey').value.trim()
           })
         });
